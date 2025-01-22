@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.2] -- unreleased
+
+- Added batch parameter, over atoms, for reducing peak memory usage during simulation.
+
 ## [v0.2.1] -- 19 January 2025
 
 ### Added

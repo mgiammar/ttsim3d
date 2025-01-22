@@ -117,6 +117,15 @@ from ttsim3d.models import Simulator, SimulatorConfig
     ),
 )
 @click.option(
+    "--atom-batch-size",
+    type=int,
+    default=32768,  # 2^15
+    help=(
+        "Number of atoms to process simultaneously. "
+        "Lower values will reduce peak memory usage."
+    ),
+)
+@click.option(
     "--gpu-ids",
     type=list[int],
     multiple=True,

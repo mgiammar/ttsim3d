@@ -76,6 +76,9 @@ class SimulatorConfig(BaseModel):
     upsampling : int
         The upsampling factor to apply to the simulation. The default is -1 and
         corresponds to automatic calculation of the upsampling factor.
+    atom_batch_size : int
+        Number of atoms to calculate the potentials of at once. Default value
+        is 32768 (2^15). Lower values will reduce peak memory usage.
     store_volume : bool
         If True, store the final simulated volume in real space after requested
         simulation filters are applied under the attribute `Simulator.volume`.
@@ -98,6 +101,7 @@ class SimulatorConfig(BaseModel):
     apply_dqe: bool = True
     mtf_reference: str = "k2_300kv"
     upsampling: int = -1
+    atom_batch_size: Annotated[int, Field(gt=0)] = 32768
     store_volume: bool = True
 
     @field_validator("dose_filter_modify_signal")  # type: ignore
@@ -298,6 +302,7 @@ class Simulator(BaseModel):
             apply_dqe=self.simulator_config.apply_dqe,
             mtf_frequencies=mtf_frequencies,
             mtf_amplitudes=mtf_amplitudes,
+            atom_batch_size=self.simulator_config.atom_batch_size,
         )
 
         if self.simulator_config.store_volume:
